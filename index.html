@@ -153,7 +153,7 @@
   <!--  <div class="bar">
       
     </div> -->
-    
+        <button id="play-ad-btn">Play Ads</button>
     
      <div class="social-cont">
        <div>Zsecrypt</div>
@@ -349,6 +349,39 @@
      </div>
      <script async="async" data-cfasync="false" src="//pl24084012.highratecpm.com/b240081f458253615d029bf983e2b995/invoke.js"></script>
 <div id="container-b240081f458253615d029bf983e2b995"></div>
-     
+     <script>
+  
+     // Attach event listener to the button
+document.getElementById('play-ad-btn').addEventListener('click', playAd);
+
+// Function to play the ad
+function playAd() {
+  // Send request to your server to trigger ad playback
+  fetch('/play-ad', { method: 'POST' })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+}
+
+// On your server (e.g., using Node.js and Express)
+const express = require('express');
+const app = express();
+const telegramBot = require('node-telegram-bot-api');
+
+const bot = new telegramBot(YOUR_API_TOKEN, { polling: true });
+
+app.post('/play-ad', (req, res) => {
+  // Send the ad to the user
+  bot.sendMessage(YOUR_CHAT_ID, 'Here is the ad:', {
+    parse_mode: 'Markdown',
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: 'Learn more', url: 'https://example.com' }]
+      ]
+    }
+  });
+  res.json({ message: 'Ad sent successfully!' });
+});
+     </script>
   </body>
 </html>
